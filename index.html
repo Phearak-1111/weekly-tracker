@@ -1,357 +1,580 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weekly Study Tracker</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Study Tracker</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #ffe7f1, #e4f4ff, #f4ecff);
-      padding: 20px;
-      color: #333;
-    }
-
-    .app {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .header {
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .header h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .header p {
-      color: #666;
-      font-size: 15px;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .summary-card {
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 20px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
-    }
-
-    .summary-card h2 {
-      font-size: 26px;
-      color: #7b61ff;
-      margin-bottom: 6px;
-    }
-
-    .summary-card span {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .table-card {
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-    }
-
-    th {
-      background: #7b61ff;
-      color: white;
-      padding: 16px;
-      font-size: 14px;
-    }
-
-    td {
-      padding: 14px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-
-    td:first-child {
-      font-weight: bold;
-      color: #555;
-      text-align: left;
-    }
-
-    tr:hover {
-      background: #faf7ff;
-    }
-
-    .cell-btn {
-      border: none;
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-size: 22px;
-      background: #f1f1f1;
-      transition: 0.2s;
-    }
-
-    .cell-btn:hover {
-      transform: scale(1.08);
-    }
-
-    .done {
-      background: #d7ffd9;
-    }
-
-    .missed {
-      background: #ffe0e0;
-    }
-
-    .score {
-      font-weight: bold;
-      color: #7b61ff;
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .main-btn {
-      border: none;
-      padding: 13px 18px;
-      border-radius: 16px;
-      cursor: pointer;
-      color: white;
-      font-weight: bold;
-      background: #ff7ab6;
-      box-shadow: 0 8px 18px rgba(255, 122, 182, 0.3);
-    }
-
-    .main-btn.secondary {
-      background: #7b61ff;
-      box-shadow: 0 8px 18px rgba(123, 97, 255, 0.3);
-    }
-
-    .tips {
-      margin-top: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
-    }
-
-    .tips h3 {
-      margin-bottom: 10px;
-      color: #7b61ff;
-    }
-
-    .tips p {
-      margin-bottom: 8px;
-      color: #555;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 700px) {
       body {
-        padding: 12px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ffe7f1, #e4f4ff, #f4ecff);
+        padding: 20px;
+        color: #333;
+      }
+
+      .app {
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+        text-align: center;
       }
 
       .header h1 {
-        font-size: 24px;
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 15px;
       }
 
       .summary {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .summary-card {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        padding: 18px;
+        text-align: center;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
       }
 
       .summary-card h2 {
-        font-size: 22px;
+        font-size: 26px;
+        color: #7b61ff;
+        margin-bottom: 6px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="app">
-    <div class="header">
-      <h1>🌸 My Weekly Tracker</h1>
-      <p>Track Thesis, Coding, Trading, English, and Review from Monday to Sunday.</p>
-    </div>
 
-    <div class="summary">
-      <div class="summary-card">
-        <h2 id="totalScore">0/35</h2>
-        <span>Total Weekly Score</span>
+      .summary-card span {
+        color: #666;
+        font-size: 14px;
+      }
+
+      .table-card,
+      .history-card {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 760px;
+      }
+
+      th {
+        background: #7b61ff;
+        color: white;
+        padding: 16px;
+        font-size: 14px;
+      }
+
+      td {
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+      }
+
+      td:first-child {
+        font-weight: bold;
+        color: #555;
+        text-align: left;
+      }
+
+      tr:hover {
+        background: #faf7ff;
+      }
+
+      .cell-btn {
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-size: 22px;
+        background: #f1f1f1;
+        transition: 0.2s;
+      }
+
+      .cell-btn:hover {
+        transform: scale(1.08);
+      }
+
+      .done {
+        background: #d7ffd9;
+      }
+
+      .missed {
+        background: #ffe0e0;
+      }
+
+      .score {
+        font-weight: bold;
+        color: #7b61ff;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .main-btn {
+        border: none;
+        padding: 13px 18px;
+        border-radius: 16px;
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+        background: #ff7ab6;
+        box-shadow: 0 8px 18px rgba(255, 122, 182, 0.3);
+      }
+
+      .main-btn.secondary {
+        background: #7b61ff;
+        box-shadow: 0 8px 18px rgba(123, 97, 255, 0.3);
+      }
+
+      .main-btn.green {
+        background: #2ec4b6;
+        box-shadow: 0 8px 18px rgba(46, 196, 182, 0.3);
+      }
+
+      .main-btn.gray {
+        background: #596275;
+        box-shadow: 0 8px 18px rgba(89, 98, 117, 0.25);
+      }
+
+      .tips {
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 22px;
+        padding: 20px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
+      }
+
+      .tips h3 {
+        margin-bottom: 10px;
+        color: #7b61ff;
+      }
+
+      .tips p {
+        margin-bottom: 8px;
+        color: #555;
+        line-height: 1.5;
+      }
+
+      .history-card {
+        margin-top: 20px;
+        padding: 20px;
+        display: none;
+      }
+
+      .history-card h2 {
+        color: #7b61ff;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+
+      .history-item {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 14px;
+        border: 1px solid #eee;
+      }
+
+      .history-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .history-title h3 {
+        color: #333;
+        font-size: 18px;
+      }
+
+      .history-score {
+        background: #f1edff;
+        color: #7b61ff;
+        padding: 8px 12px;
+        border-radius: 14px;
+        font-weight: bold;
+      }
+
+      .history-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px;
+      }
+
+      .day-history {
+        background: #faf7ff;
+        border-radius: 16px;
+        padding: 12px;
+      }
+
+      .day-history strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .task-line {
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      .empty-history {
+        text-align: center;
+        color: #777;
+        padding: 20px;
+      }
+
+      @media (max-width: 700px) {
+        body {
+          padding: 12px;
+        }
+
+        .header h1 {
+          font-size: 24px;
+        }
+
+        .summary {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-card h2 {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="header">
+        <h1>🌸 My Weekly Tracker</h1>
+        <p>
+          Track Thesis, Coding, Trading, English, and Review from Monday to
+          Sunday.
+        </p>
       </div>
-      <div class="summary-card">
-        <h2 id="percentScore">0%</h2>
-        <span>Weekly Completion</span>
+
+      <div class="summary">
+        <div class="summary-card">
+          <h2 id="totalScore">0/35</h2>
+          <span>Total Weekly Score</span>
+        </div>
+        <div class="summary-card">
+          <h2 id="percentScore">0%</h2>
+          <span>Weekly Completion</span>
+        </div>
+        <div class="summary-card">
+          <h2 id="bestDay">-</h2>
+          <span>Best Day</span>
+        </div>
       </div>
-      <div class="summary-card">
-        <h2 id="bestDay">-</h2>
-        <span>Best Day</span>
+
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Thesis 🎓</th>
+                <th>Code 💻</th>
+                <th>Trade 📈</th>
+                <th>English 🇬🇧</th>
+                <th>Review 📘</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="trackerBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="main-btn secondary" onclick="saveWeek()">
+          💾 Save Current Week
+        </button>
+        <button class="main-btn green" onclick="showHistory()">
+          📚 View History
+        </button>
+        <button class="main-btn gray" onclick="hideHistory()">
+          🙈 Hide History
+        </button>
+        <button class="main-btn" onclick="resetWeek()">
+          🔄 Save to History & Reset
+        </button>
+      </div>
+
+      <div class="history-card" id="historyCard">
+        <h2>📚 Weekly History</h2>
+        <div id="historyList"></div>
+      </div>
+
+      <div class="tips">
+        <h3>✨ How to use</h3>
+        <p>Click once = ✅ done.</p>
+        <p>Click twice = ❌ missed.</p>
+        <p>Click three times = empty again.</p>
+        <p>
+          When your week is finished, click
+          <strong>Save to History & Reset</strong>. It will save your week
+          before clearing the tracker.
+        </p>
       </div>
     </div>
 
-    <div class="table-card">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Day</th>
-              <th>Thesis 🎓</th>
-              <th>Code 💻</th>
-              <th>Trade 📈</th>
-              <th>English 🇬🇧</th>
-              <th>Review 📘</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody id="trackerBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <script>
+      const days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ];
+      const tasks = ["Thesis", "Code", "Trade", "English", "Review"];
+      const storageKey = "weeklyStudyTracker";
+      const historyKey = "weeklyStudyTrackerHistory";
 
-    <div class="actions">
-      <button class="main-btn secondary" onclick="saveWeek()">💾 Save Week</button>
-      <button class="main-btn" onclick="resetWeek()">🔄 Reset Week</button>
-    </div>
+      let tracker =
+        JSON.parse(localStorage.getItem(storageKey)) || createEmptyTracker();
+      let history = JSON.parse(localStorage.getItem(historyKey)) || [];
 
-    <div class="tips">
-      <h3>✨ How to use</h3>
-      <p>Click once = ✅ done.</p>
-      <p>Click twice = ❌ missed.</p>
-      <p>Click three times = empty again.</p>
-      <p>Your data is saved automatically in this browser.</p>
-    </div>
-  </div>
-
-  <script>
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    const tasks = ["Thesis", "Code", "Trade", "English", "Review"];
-    const storageKey = "weeklyStudyTracker";
-
-    let tracker = JSON.parse(localStorage.getItem(storageKey)) || createEmptyTracker();
-
-    function createEmptyTracker() {
-      const data = {};
-      days.forEach(day => {
-        data[day] = {};
-        tasks.forEach(task => {
-          data[day][task] = 0;
+      function createEmptyTracker() {
+        const data = {};
+        days.forEach((day) => {
+          data[day] = {};
+          tasks.forEach((task) => {
+            data[day][task] = 0;
+          });
         });
-      });
-      return data;
-    }
+        return data;
+      }
 
-    function renderTracker() {
-      const tbody = document.getElementById("trackerBody");
-      tbody.innerHTML = "";
+      function renderTracker() {
+        const tbody = document.getElementById("trackerBody");
+        tbody.innerHTML = "";
 
-      days.forEach(day => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${day}</td>`;
+        days.forEach((day) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${day}</td>`;
 
-        tasks.forEach(task => {
-          const value = tracker[day][task];
-          const symbol = value === 1 ? "✅" : value === 2 ? "❌" : "";
-          const className = value === 1 ? "done" : value === 2 ? "missed" : "";
+          tasks.forEach((task) => {
+            const value = tracker[day][task];
+            const symbol = value === 1 ? "✅" : value === 2 ? "❌" : "";
+            const className =
+              value === 1 ? "done" : value === 2 ? "missed" : "";
 
-          row.innerHTML += `
+            row.innerHTML += `
             <td>
               <button class="cell-btn ${className}" onclick="toggleTask('${day}', '${task}')">${symbol}</button>
             </td>
           `;
+          });
+
+          row.innerHTML += `<td class="score" id="score-${day}">0/5</td>`;
+          tbody.appendChild(row);
         });
 
-        row.innerHTML += `<td class="score" id="score-${day}">0/5</td>`;
-        tbody.appendChild(row);
-      });
+        updateScores();
+      }
 
-      updateScores();
-    }
+      function toggleTask(day, task) {
+        tracker[day][task] = (tracker[day][task] + 1) % 3;
+        saveData();
+        renderTracker();
+      }
 
-    function toggleTask(day, task) {
-      tracker[day][task] = (tracker[day][task] + 1) % 3;
-      saveData();
-      renderTracker();
-    }
+      function calculateScore(data) {
+        let total = 0;
+        const dayScores = {};
 
-    function updateScores() {
-      let total = 0;
-      let bestDayName = "-";
-      let bestDayScore = -1;
-
-      days.forEach(day => {
-        let dayScore = 0;
-        tasks.forEach(task => {
-          if (tracker[day][task] === 1) dayScore++;
+        days.forEach((day) => {
+          let dayScore = 0;
+          tasks.forEach((task) => {
+            if (data[day][task] === 1) dayScore++;
+          });
+          dayScores[day] = dayScore;
+          total += dayScore;
         });
 
-        total += dayScore;
-        document.getElementById(`score-${day}`).textContent = `${dayScore}/5`;
+        return {
+          total,
+          percent: Math.round((total / 35) * 100),
+          dayScores,
+        };
+      }
 
-        if (dayScore > bestDayScore) {
-          bestDayScore = dayScore;
-          bestDayName = day;
+      function updateScores() {
+        const result = calculateScore(tracker);
+        let bestDayName = "-";
+        let bestDayScore = -1;
+
+        days.forEach((day) => {
+          const dayScore = result.dayScores[day];
+          document.getElementById(`score-${day}`).textContent = `${dayScore}/5`;
+
+          if (dayScore > bestDayScore) {
+            bestDayScore = dayScore;
+            bestDayName = day;
+          }
+        });
+
+        document.getElementById("totalScore").textContent =
+          `${result.total}/35`;
+        document.getElementById("percentScore").textContent =
+          `${result.percent}%`;
+        document.getElementById("bestDay").textContent = bestDayName;
+      }
+
+      function saveData() {
+        localStorage.setItem(storageKey, JSON.stringify(tracker));
+      }
+
+      function saveHistory() {
+        const result = calculateScore(tracker);
+        const weekNumber = history.length + 1;
+        const today = new Date().toLocaleDateString();
+
+        const record = {
+          weekName: `Week ${weekNumber}`,
+          dateSaved: today,
+          score: result.total,
+          percent: result.percent,
+          data: JSON.parse(JSON.stringify(tracker)),
+        };
+
+        history.push(record);
+        localStorage.setItem(historyKey, JSON.stringify(history));
+      }
+
+      function saveWeek() {
+        saveData();
+        alert("Your current week is saved ✅");
+      }
+
+      function hasAnyData() {
+        return days.some((day) =>
+          tasks.some((task) => tracker[day][task] !== 0),
+        );
+      }
+
+      function resetWeek() {
+        if (!hasAnyData()) {
+          alert(
+            "This week is empty. Add some ✅ or ❌ before saving to history.",
+          );
+          return;
         }
-      });
 
-      const percent = Math.round((total / 35) * 100);
-      document.getElementById("totalScore").textContent = `${total}/35`;
-      document.getElementById("percentScore").textContent = `${percent}%`;
-      document.getElementById("bestDay").textContent = bestDayName;
-    }
+        const confirmReset = confirm(
+          "Save this week to history and reset current tracker?",
+        );
+        if (!confirmReset) return;
 
-    function saveData() {
-      localStorage.setItem(storageKey, JSON.stringify(tracker));
-    }
+        saveHistory();
+        tracker = createEmptyTracker();
+        saveData();
+        renderTracker();
+        renderHistory();
+        alert("Week saved to history and tracker reset ✅");
+      }
 
-    function saveWeek() {
-      saveData();
-      alert("Your weekly tracker is saved ✅");
-    }
+      function showHistory() {
+        document.getElementById("historyCard").style.display = "block";
+        renderHistory();
+      }
 
-    function resetWeek() {
-      const confirmReset = confirm("Are you sure you want to reset this week?");
-      if (!confirmReset) return;
+      function hideHistory() {
+        document.getElementById("historyCard").style.display = "none";
+      }
 
-      tracker = createEmptyTracker();
-      saveData();
+      function getSymbol(value) {
+        if (value === 1) return "✅";
+        if (value === 2) return "❌";
+        return "➖";
+      }
+
+      function renderHistory() {
+        const historyList = document.getElementById("historyList");
+        historyList.innerHTML = "";
+
+        if (history.length === 0) {
+          historyList.innerHTML = `<div class="empty-history">No history yet. Finish one week, then click Save to History & Reset.</div>`;
+          return;
+        }
+
+        [...history].reverse().forEach((record) => {
+          const item = document.createElement("div");
+          item.className = "history-item";
+
+          let content = `
+          <div class="history-title">
+            <h3>${record.weekName} <small>(${record.dateSaved})</small></h3>
+            <div class="history-score">Score: ${record.score}/35 | ${record.percent}%</div>
+          </div>
+          <div class="history-grid">
+        `;
+
+          days.forEach((day) => {
+            const dayScore = tasks.filter(
+              (task) => record.data[day][task] === 1,
+            ).length;
+            content += `<div class="day-history"><strong>${day} - ${dayScore}/5</strong>`;
+
+            tasks.forEach((task) => {
+              content += `<div class="task-line">${getSymbol(record.data[day][task])} ${task}</div>`;
+            });
+
+            content += `</div>`;
+          });
+
+          content += `</div>`;
+          item.innerHTML = content;
+          historyList.appendChild(item);
+        });
+      }
+
       renderTracker();
-    }
-
-    renderTracker();
-  </script>
-</body>
+    </script>
+  </body>
 </html>
