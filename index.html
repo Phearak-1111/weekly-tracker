@@ -235,6 +235,21 @@
         font-weight: bold;
       }
 
+      .delete-history-btn {
+        border: none;
+        background: #ff6b6b;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 6px 14px rgba(255, 107, 107, 0.25);
+      }
+
+      .delete-history-btn:hover {
+        transform: scale(1.05);
+      }
+
       .history-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -528,6 +543,18 @@
         document.getElementById("historyCard").style.display = "none";
       }
 
+      function deleteHistory(index) {
+        const confirmDelete = confirm(
+          `Delete ${history[index].weekName} from history?`,
+        );
+        if (!confirmDelete) return;
+
+        history.splice(index, 1);
+        localStorage.setItem(historyKey, JSON.stringify(history));
+        renderHistory();
+        alert("History week deleted ✅");
+      }
+
       function getSymbol(value) {
         if (value === 1) return "✅";
         if (value === 2) return "❌";
@@ -543,7 +570,8 @@
           return;
         }
 
-        [...history].reverse().forEach((record) => {
+        [...history].reverse().forEach((record, reversedIndex) => {
+          const originalIndex = history.length - 1 - reversedIndex;
           const item = document.createElement("div");
           item.className = "history-item";
 
@@ -551,6 +579,7 @@
           <div class="history-title">
             <h3>${record.weekName} <small>(${record.dateSaved})</small></h3>
             <div class="history-score">Score: ${record.score}/35 | ${record.percent}%</div>
+            <button class="delete-history-btn" onclick="deleteHistory(${originalIndex})">🗑️ Delete</button>
           </div>
           <div class="history-grid">
         `;
